@@ -196,8 +196,8 @@ namespace LitCAD.DatabaseServices
             if (_closed && numOfVertices > 2)
             {
                 GripPoint midGripPnt = new GripPoint(GripPointType.Mid, (_vertices[0] + _vertices[numOfVertices - 1]) / 2);
-                midGripPnt.xData1 = _vertices[0];
-                midGripPnt.xData2 = _vertices[numOfVertices - 1];
+                midGripPnt.xData1 = _vertices[numOfVertices - 1];
+                midGripPnt.xData2 = _vertices[0];
                 gripPnts.Add(midGripPnt);
             }
 
