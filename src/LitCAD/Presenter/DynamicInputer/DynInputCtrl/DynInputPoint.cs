@@ -21,9 +21,9 @@ namespace LitCAD.UI
         private LitMath.Vector2 _value = new LitMath.Vector2(0, 0);
 
         /// <summary>
-        /// 更新值
+        /// 获取值
         /// </summary>
-        protected virtual bool UpdateValue()
+        protected virtual bool GetValue()
         {
             double x;
             if (!double.TryParse(_xTextBox.Text, out x))
@@ -79,6 +79,26 @@ namespace LitCAD.UI
             _xTextBox.Location = new Point(x, (int)_position.y + 5);
             _yTextBox.Location = new Point(x, _xTextBox.Location.Y + _xTextBox.Height + 5);
             _tipLabel.Location = new Point(x, _yTextBox.Location.Y + _yTextBox.Height + 5);
+
+            UpdateValue();
+        }
+
+        /// <summary>
+        /// 更新值
+        /// </summary>
+        protected virtual void UpdateValue()
+        {
+            if (_presenter.pointer.currentSnapPoint != null)
+            {
+                _xTextBox.Text = _presenter.pointer.currentSnapPoint.x.ToString("f6");
+                _yTextBox.Text = _presenter.pointer.currentSnapPoint.y.ToString("f6");
+            }
+            else
+            {
+                LitMath.Vector2 posInModel = _presenter.CanvasToModel(_position);
+                _xTextBox.Text = posInModel.x.ToString("f6");
+                _yTextBox.Text = posInModel.y.ToString("f6");
+            }
         }
 
         /// <summary>
@@ -97,7 +117,7 @@ namespace LitCAD.UI
         /// </summary>
         public override void Finish()
         {
-            if (!this.UpdateValue())
+            if (!this.GetValue())
             {
                 return;
             }
