@@ -8,6 +8,14 @@ namespace LitCAD.DatabaseServices
     /// </summary>
     public class Polyline : Entity
     {
+        /// <summary>
+        /// 类名
+        /// </summary>
+        public override string className
+        {
+            get { return "Polyline"; }
+        }
+
         private List<LitMath.Vector2> _vertices = new List<LitMath.Vector2>();
         private bool _closed = false;
 
@@ -238,6 +246,65 @@ namespace LitCAD.DatabaseServices
 
                 default:
                     break;
+            }
+        }
+
+        /// <summary>
+        /// 写XML
+        /// </summary>
+        public override void XmlOut(Filer.XmlFiler filer)
+        {
+            base.XmlOut(filer);
+
+            //
+            filer.Write("closed", _closed);
+            //
+            string strVertices = "";
+            int i = 0;
+            foreach (LitMath.Vector2 vertex in _vertices)
+            {
+                if (++i > 1)
+                {
+                    strVertices += "|";
+                }
+                strVertices += vertex.x.ToString() + ";" + vertex.y.ToString();
+            }
+            filer.Write("vertices", strVertices);
+        }
+
+        /// <summary>
+        /// 读XML
+        /// </summary>
+        public override void XmlIn(Filer.XmlFiler filer)
+        {
+            base.XmlIn(filer);
+
+            //
+            filer.Read("closed", out _closed);
+            //
+            string strVertices;
+            filer.Read("vertices", out strVertices);
+            string[] vts = strVertices.Split('|');
+            double x = 0;
+            double y = 0;
+            string[] xy = null;
+            foreach (string vtx in vts)
+            {
+                xy = vtx.Split(';');
+                if (xy.Length != 2)
+                {
+                    continue;
+                }
+                if (!double.TryParse(xy[0], out x))
+                {
+                    continue;
+                }
+                if (!double.TryParse(xy[1], out y))
+                {
+                    continue;
+                }
+
+                _vertices.Add(new LitMath.Vector2(x, y));
             }
         }
     }

@@ -58,9 +58,67 @@ namespace LitCAD.Windows
             _document.currentColorChanged += this.OnDocumentCurrColorChanged;
             
             //
-            Layer layer = new Layer("test");
-            layer.color = LitCAD.Colors.Color.FromRGB(255, 0, 0);
-            _document.database.layerTable.Add(layer);
+            //Layer layer = new Layer("test");
+            //layer.color = LitCAD.Colors.Color.FromRGB(255, 0, 0);
+            //_document.database.layerTable.Add(layer);
+        }
+
+        /// <summary>
+        /// 打开文件
+        /// </summary>
+        internal void Open(string fileFullPath)
+        {
+            _document.database.Open(fileFullPath);
+            if (_document.database != null
+                && _document.database.fileName != null)
+            {
+                this.Text = _document.database.fileName;
+            }
+        }
+
+        /// <summary>
+        /// 保存文件
+        /// </summary>
+        internal void Save()
+        {
+            _document.database.Save();
+            if (_document.database != null
+                && _document.database.fileName != null)
+            {
+                this.Text = _document.database.fileName;
+            }
+        }
+
+        /// <summary>
+        /// 另存为
+        /// </summary>
+        internal void SaveAs(string fileFullPath, bool rename = false)
+        {
+            _document.database.SaveAs(fileFullPath, rename);
+            if (_document.database != null
+                && _document.database.fileName != null)
+            {
+                this.Text = _document.database.fileName;
+            }
+        }
+
+        /// <summary>
+        /// 文件全路径
+        /// </summary>
+        internal string fileFullPath
+        {
+            get
+            {
+                if (_document.database != null
+                    && _document.database.fileName != null)
+                {
+                    return _document.database.fileName;
+                }
+                else
+                {
+                    return this.Text;
+                }
+            }
         }
 
         /// <summary>
