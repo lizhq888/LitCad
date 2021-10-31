@@ -35,8 +35,27 @@ namespace LitCAD
         {
             LitMath.Vector2 posInModel = _presenter.CanvasToModel(posInCanvas);
 
-            foreach (Entity entity in _presenter.currentBlock)
+            List<Entity> allEntites = new List<Entity>();
+
+            //首先捕捉绘制时的临时对象
+            if (_presenter.cmdsMgr.CurrentCmd != null && _presenter.cmdsMgr.CurrentCmd is Commands.Draw.DrawCmd)
             {
+                Commands.Draw.DrawCmd cmd = _presenter.cmdsMgr.CurrentCmd as Commands.Draw.DrawCmd;
+                if (cmd.DrawingTmpEntities != null)
+                {
+                    allEntites.AddRange(cmd.DrawingTmpEntities);
+                }
+            }
+
+            //再捕捉已生成的对象
+            allEntites.AddRange(_presenter.currentBlock);
+
+            //校验捕捉点是否在范围内
+            foreach (Entity entity in allEntites)
+            {
+                if (entity == null)
+                    continue;
+
                 List<ObjectSnapPoint> snapPnts = entity.GetSnapPoints();
                 if (snapPnts == null || snapPnts.Count == 0)
                 {

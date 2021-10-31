@@ -12,6 +12,7 @@ namespace LitCAD.Commands.Draw
     internal abstract class DrawCmd : Command
     {
         protected abstract IEnumerable<Entity> newEntities { get; }
+        public IEnumerable<Entity> DrawingTmpEntities { get => newEntities; }
 
         /// <summary>
         /// 初始化

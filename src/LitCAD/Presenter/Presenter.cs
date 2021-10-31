@@ -551,6 +551,10 @@ namespace LitCAD
 
         //
         private CommandsMgr _cmdsMgr = null;
+        internal CommandsMgr cmdsMgr
+        {
+            get { return _cmdsMgr; }
+        }
 
         private Pointer _pointer = null;
         internal Pointer pointer
