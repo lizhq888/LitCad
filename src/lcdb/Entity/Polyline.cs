@@ -138,6 +138,23 @@ namespace LitCAD.DatabaseServices
         }
 
         /// <summary>
+        /// 转化为线段
+        /// </summary>
+        public List<Line> ToLines()
+        {
+            List<Line> lines = new List<Line>();
+            for (int i = 1; i < this.NumberOfVertices; ++i)
+            {
+                lines.Add(new Line(_vertices[i - 1], _vertices[i]));
+            }
+            if (_closed && this.NumberOfVertices > 2 && !_vertices[this.NumberOfVertices - 1].Equals(_vertices[0]))
+            {
+                lines.Add(new Line(_vertices[this.NumberOfVertices - 1], _vertices[0]));
+            }
+            return lines;
+        }
+
+        /// <summary>
         /// 对象捕捉点
         /// </summary>
         public override List<ObjectSnapPoint> GetSnapPoints()

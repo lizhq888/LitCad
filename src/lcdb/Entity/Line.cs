@@ -53,6 +53,20 @@ namespace LitCAD.DatabaseServices
         }
 
         /// <summary>
+        /// 转化为LitMath.Line2
+        /// </summary>
+        private LitMath.Line2 _litMathLine = new LitMath.Line2();
+        public LitMath.Line2 litMathLine
+        {
+            get
+            {
+                _litMathLine.startPoint = _startPoint;
+                _litMathLine.endPoint = _endPoint;
+                return _litMathLine;
+            }
+        }
+
+        /// <summary>
         /// 绘制函数
         /// </summary>
         public override void Draw(IGraphicsDraw gd)

@@ -15,13 +15,10 @@ namespace LitCAD.UI
                 return false;
 
             Bounding pkBounding = pkbox.reservedBounding;
-            for (int i = 1; i < polyline.NumberOfVertices; ++i)
+            var lines = polyline.ToLines();
+            foreach (var line in lines)
             {
-                LitMath.Line2 line = new LitMath.Line2(
-                    polyline.GetPointAt(i - 1),
-                    polyline.GetPointAt(i));
-
-                if (LineHitter.BoundingIntersectWithLine(pkBounding, line))
+                if (LineHitter.BoundingIntersectWithLine(pkBounding, line.litMathLine))
                 {
                     return true;
                 }

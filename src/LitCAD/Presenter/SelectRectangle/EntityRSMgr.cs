@@ -29,6 +29,7 @@ namespace LitCAD
         /// Constructor
         /// </summary>
         private Dictionary<Type, EntityRS> _type2EntityRS = new Dictionary<Type, EntityRS>();
+        internal Dictionary<Type, EntityRS> type2EntityRS { get => _type2EntityRS; }
 
         private EntityRSMgr()
         {
